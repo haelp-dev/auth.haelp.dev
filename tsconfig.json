@@ -18,6 +18,8 @@
       }
     ],
     "paths": {
+			"@api": ["./src/app/api"],
+			"@api/*": ["./src/app/api/*"],
 			"@types": ["./src/types"],
 			"@types/*": ["./src/types/*"],
 			"@lib": ["./src/lib"],

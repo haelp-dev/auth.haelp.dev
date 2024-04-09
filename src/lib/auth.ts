@@ -5,7 +5,7 @@ export const auth = new Auth({
     uri: process.env.MONGODB_URI!,
     name: "auth",
   },
-  domain: ".haelp.dev",
+  domain: process.env.NODE_ENV === "development" ? "localhost" : ".haelp.dev",
   jwt: {
     secret: process.env.JWT_SECRET!,
     cookie: "haelp.auth",

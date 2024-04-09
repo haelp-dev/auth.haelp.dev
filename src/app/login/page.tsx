@@ -45,25 +45,30 @@ export default function Home() {
         }
       }}
       onKeyDown={async (e) => {
-        if (e.key === "Enter") {
-          if (state === 1) {
-            if (loginInfo[0] !== "") setState(2);
-          } else if (state === 2) {
-            if (loginInfo[1] !== "") {
-              setState(3);
-              const res = await login(loginInfo[0], loginInfo[1]);
-              if (res.success) {
-                alert("Logged in!");
-              } else {
-                setState(4);
-                setError(res.error);
+        try {
+          if (e.key === "Enter") {
+            if (state === 1) {
+              if (loginInfo[0] !== "") setState(2);
+            } else if (state === 2) {
+              if (loginInfo[1] !== "") {
+                setState(3);
+                const res = await login(loginInfo[0], loginInfo[1]);
+                if (res.success) {
+                  alert("Logged in!");
+                } else {
+                  setState(4);
+                  setError("Error: " + res.error);
+                }
               }
+            } else if (state === 4) {
+              setState(1);
+              setError("");
+              setLoginInfo([loginInfo[0], ""]);
             }
-          } else if (state === 4) {
-            setState(1);
-            setError("");
-            setLoginInfo([loginInfo[0], ""]);
           }
+        } catch (e) {
+          setError("Error: " + (e as Error).message);
+          console.error(e);
         }
       }}
     >
