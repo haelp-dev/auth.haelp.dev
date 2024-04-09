@@ -1,7 +1,7 @@
 "use server";
 
 import { User } from "@haelp/auth";
-import { auth } from "@lib";
+import { auth , checkValidUsername} from "@lib";
 import { APIResponse } from "@types";
 import { cookies } from "next/headers";
 
@@ -27,7 +27,8 @@ export const checkIdentifier = async (email: string): Promise<boolean> => {
   return await auth.checkIdentifier(email);
 };
 
-export const validateUser = (user: User) => {
-  // TODO: implement
-  return true;
+export const validateUser =async (user: User) => {
+  // validate username
+	if (!checkValidUsername(user.username) || await auth.checkIdentifier(user.username)) return false; 
+	
 };
