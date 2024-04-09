@@ -3,6 +3,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { login } from "./actions";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function Home() {
   const [state, setState] = useState(0);
@@ -29,6 +30,11 @@ export default function Home() {
   const textShadow = 20;
 
   const [loginInfo, setLoginInfo] = useState(["", ""]);
+
+  const search = useSearchParams();
+	const router = useRouter();
+  const redirect = search.get("redirect") || "/account";
+
   return (
     <main
       className="select-none h-screen bg-black text-white font-mono font-bold p-10 relative before:absolute before:content-['>'] before:top-[39px] before:left-7 before:text-white caret-transparent"
@@ -54,7 +60,8 @@ export default function Home() {
                 setState(3);
                 const res = await login(loginInfo[0], loginInfo[1]);
                 if (res.success) {
-                  alert("Logged in!");
+                  setState(5);
+									setTimeout(() => router.push(redirect), 500);
                 } else {
                   setState(4);
                   setError("Error: " + res.error);
@@ -90,10 +97,8 @@ export default function Home() {
           }
         `}
       </style>
-
       {/* loading */}
       {state === 0 && <span>Loading...</span>}
-
       {/* username */}
       {state >= 1 && (
         <>
@@ -109,7 +114,6 @@ export default function Home() {
           </span>
         </>
       )}
-
       {/* password */}
       {state >= 2 && (
         <>
@@ -128,7 +132,6 @@ export default function Home() {
           </span>
         </>
       )}
-
       {/* authing */}
       {state >= 3 && (
         <>
@@ -138,9 +141,8 @@ export default function Home() {
           </span>
         </>
       )}
-
       {/* error */}
-      {state >= 4 && (
+      {state === 4 && (
         <>
           <br />
           <span className="mt-5">
@@ -152,7 +154,13 @@ export default function Home() {
           </span>
         </>
       )}
-
+      {/* success */}
+      {state === 5 && (
+        <>
+          <br />
+          <span className="mt-5">Logged in...</span>
+        </>
+      )}
       {/* cursor */}
       <span className="blink ml-1 pr-2 h-2 bg-white"></span>
     </main>

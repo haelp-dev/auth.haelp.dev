@@ -1,7 +1,10 @@
 import { getAccount } from "@api";
+import { redirect } from "next/navigation";
 
 export default async function AccountPage() {
-	const account = await getAccount();
+  const account = await getAccount();
 
-	return !account ? "no account found" : account.username;
+  if (!account) return redirect("/login");
+
+  return <>Hi, {account.name}</>;
 }
