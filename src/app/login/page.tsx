@@ -9,12 +9,7 @@ export default function Home() {
   const [state, setState] = useState(0);
   const [error, setError] = useState("");
   useEffect(() => {
-    const timers = [
-      setTimeout(() => {
-        setState(1);
-      }, 300),
-    ];
-    return () => timers.forEach((timer) => clearTimeout(timer));
+    setState(1);
   }, []);
 
   const refs = [useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null)];
@@ -61,7 +56,7 @@ export default function Home() {
                 const res = await login(loginInfo[0], loginInfo[1]);
                 if (res.success) {
                   setState(5);
-									setTimeout(() => router.push(redirect), 500);
+									 router.push(redirect);
                 } else {
                   setState(4);
                   setError("Error: " + res.error);

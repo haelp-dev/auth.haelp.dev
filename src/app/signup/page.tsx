@@ -32,24 +32,21 @@ type Item =
 
 export default function Home() {
   const [state, setState] = useState(0);
-  const [items, setItems] = useState<Item[]>([{ type: "text", content: "Loading..." }]);
+  const [items, setItems] = useState<Item[]>([
+    { type: "text", content: "Loading..." },
+  ]);
   const addItems = (...newItems: Item[]) => setItems([...items, ...newItems]);
   useEffect(() => {
-    const timers = [
-      setTimeout(() => {
-        setState(1);
-        setItems([
-          {
-            type: "prompt",
-            prompt: "Enter your email",
-            inputType: "text",
-            key: "email",
-            value: "",
-          },
-        ]);
-      }, 0),
-    ];
-    return () => timers.forEach((timer) => clearTimeout(timer));
+    setState(1);
+    setItems([
+      {
+        type: "prompt",
+        prompt: "Enter your email",
+        inputType: "text",
+        key: "email",
+        value: "",
+      },
+    ]);
   }, []);
 
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -82,9 +79,11 @@ export default function Home() {
       ref={containerRef}
       className="select-none h-screen bg-black text-white font-mono font-bold p-10 overflow-hidden relative before:absolute before:content-['>'] before:top-[39px] before:left-7 before:text-white caret-transparent"
       style={{
-        textShadow: `0 0 ${textShadow}px #ffffff, 0 0 ${textShadow * 2}px #ffffff, 0 0 ${
-          textShadow * 3
-        }px #ffffff, 0 0 ${textShadow * 4}px #ffffff`,
+        textShadow: `0 0 ${textShadow}px #ffffff, 0 0 ${
+          textShadow * 2
+        }px #ffffff, 0 0 ${textShadow * 3}px #ffffff, 0 0 ${
+          textShadow * 4
+        }px #ffffff`,
       }}
       onClick={() => {
         if (inputRef.current) inputRef.current.focus();
@@ -251,7 +250,7 @@ export default function Home() {
                   type: "error",
                   content: "Error: " + (e as Error).message,
                 });
-								setState(-1);
+                setState(-1);
               }
             }
           }
